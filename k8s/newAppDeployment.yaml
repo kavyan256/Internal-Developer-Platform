@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-idp-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: my-idp-app
+  template:
+    metadata:
+      labels:
+        app: my-idp-app
+    spec:
+      containers:
+        - name: my-idp-app
+          image: my-idp-app:v1
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+          env:
+            - name: APP_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: my-app-config
+                  key: APP_PORT
+            - name: APP_ENV
+              valueFrom:
+                configMapKeyRef:
+                  name: my-app-config
+                  key: APP_ENV
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-idp-app-service
+spec:
+  selector:
+    app: my-idp-app
+  ports:
+    - port: 80
+      targetPort: 8080
+  type: NodePort

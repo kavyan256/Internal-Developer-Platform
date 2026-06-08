@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backstage
+  namespace: backstage
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backstage
+  template:
+    metadata:
+      labels:
+        app: backstage
+    spec:
+      containers:
+        - name: backstage
+          image: backstage:1.0
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 7007
+          env:
+            - name: GITHUB_TOKEN
+              value: "your_github_token"
+            - name: POSTGRES_HOST
+              value: "postgres.backstage.svc.cluster.local"
+            - name: PG_PORT
+              value: "5432"
+            - name: POSTGRES_USER
+              value: "backstage"
+            - name: POSTGRES_PASSWORD
+              value: "backstage123"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backstage
+  namespace: backstage
+spec:
+  selector:
+    app: backstage
+  ports:
+    - port: 80
+      targetPort: 7007
+  type: NodePort

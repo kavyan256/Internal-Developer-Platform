@@ -1,0 +1,16 @@
+# Node
+node_modules/
+.yarn/cache
+
+# Terraform secrets
+terraform/*.tfstate
+terraform/*.tfstate.backup
+terraform/.terraform/
+
+# Backstage
+backstage/dist/
+backstage/.cache/
+
+# Secrets
+secret.yaml
+.env
