@@ -1,0 +1,124 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: nodejs-service
+  title: Create a Node.js Service
+  description: Scaffolds a new Node.js service and registers it in the catalog
+  tags:
+    - nodejs
+    - kubernetes
+spec:
+  owner: user:guest
+  type: service
+
+  parameters:
+    - title: Service Details
+      required:
+        - serviceName
+        - description
+        - owner
+      properties:
+        serviceName:
+          title: Service Name
+          type: string
+        description:
+          title: Description
+          type: string
+        owner:
+          title: Owner
+          type: string
+          default: user:guest
+        replicaNumber:
+          title: Number of Replicas
+          type: integer
+          default: 2
+        containerName:
+          title: Container Name
+          type: string
+        containerImage:
+          title: Container Image
+          type: string
+          description: e.g. nginx:latest or yourusername/your-app:v1
+        containerPort:
+          title: Container Port
+          type: integer
+          default: 3000
+        port:
+          title: Service Port
+          type: integer
+          default: 80
+        targetPort:
+          title: Target Port
+          type: integer
+          default: 3000
+        configName:
+          title: ConfigMap Name
+          type: string
+        environmentName:
+          title: App Environment
+          type: string
+          default: development
+        envPort:
+          title: App Port
+          type: string
+          default: "3000"
+        databaseURL:
+          title: Database URL
+          type: string
+        envConfigName:
+          title: ConfigMap Reference Name
+          type: string
+        envSecret:
+          title: Secret Name
+          type: string
+        dbPassword:
+          title: Database Password
+          type: string
+        apiKey:
+          title: API Key
+          type: string
+
+  steps:
+    - id: fetch
+      name: Fetch Template
+      action: fetch:template
+      input:
+        url: ./skeleton
+        values:
+          serviceName: ${{ parameters.serviceName }}
+          description: ${{ parameters.description }}
+          owner: ${{ parameters.owner }}
+          replicaNumber: ${{ parameters.replicaNumber }}
+          containerName: ${{ parameters.containerName }}
+          containerImage: ${{ parameters.containerImage }}
+          containerPort: ${{ parameters.containerPort }}
+          port: ${{ parameters.port }}
+          targetPort: ${{ parameters.targetPort }}
+          configName: ${{ parameters.configName }}
+          environmentName: ${{ parameters.environmentName }}
+          envPort: ${{ parameters.envPort }}
+          databaseURL: ${{ parameters.databaseURL }}
+          envConfigName: ${{ parameters.envConfigName }}
+          envSecret: ${{ parameters.envSecret }}
+          dbPassword: ${{ parameters.dbPassword }}
+          apiKey: ${{ parameters.apiKey }}
+
+    - id: publish
+      name: Publish to GitHub
+      action: publish:github
+      input:
+        description: ${{ parameters.description }}
+        repoUrl: github.com?owner=${{ parameters.owner }}&repo=${{ parameters.serviceName }}
+        defaultBranch: main
+    
+    - id: register
+      name: Register in Catalog
+      action: catalog:register
+      input:
+        repoContentsUrl: ${{ steps['publish'].output.repoContentsUrl }}
+        catalogInfoPath: /catalog-info.yaml
+  output:
+    links:
+      - title: View in Catalog
+        icon: catalog
+        entityRef: ${{ steps['register'].output.entityRef }}

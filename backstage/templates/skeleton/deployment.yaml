@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ${{ values.serviceName }}
+  labels:
+    app: ${{ values.serviceName }}
+spec:
+  replicas: ${{ values.replicaNumber }}
+  selector:
+    matchLabels:
+      app: ${{ values.serviceName }}
+  template:
+    metadata:
+      labels:
+        app: ${{ values.serviceName }}
+    spec:
+      containers:
+        - name: ${{ values.containerName }}
+          image: ${{ values.containerImage }}
+          ports:
+            - containerPort: ${{ values.containerPort }}
+          env: 
+            - name: APP_ENV
+              valueFrom:
+                configMapKeyRef:
+                  name: ${{ values.envConfigName }}
+                  key: APP_ENV
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: ${{ values.envSecret }}
+                  key: DB_PASSWORD
+

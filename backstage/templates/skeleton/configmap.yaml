@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ${{ values.configName }}
+data:
+  APP_ENV: ${{ values.environmentName }}
+  APP_PORT: ${{ values.envPort }}
+  DATABASE_URL: ${{ values.databaseURL }}
