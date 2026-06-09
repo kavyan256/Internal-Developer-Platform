@@ -1,17 +1,10 @@
----
-# https://backstage.io/docs/features/software-catalog/descriptor-format#kind-user
 apiVersion: backstage.io/v1alpha1
 kind: User
 metadata:
-  name: guest
+  name: kavyan256
+  annotations:
+    github.com/user-login: kavyan256
 spec:
-  memberOf: [guests]
----
-# https://backstage.io/docs/features/software-catalog/descriptor-format#kind-group
-apiVersion: backstage.io/v1alpha1
-kind: Group
-metadata:
-  name: guests
-spec:
-  type: team
-  children: []
+  profile:
+    displayName: Kavyan
+  memberOf: []
