@@ -1,0 +1,15 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ${{ values.repoName }}
+  title: ${{ values.displayName }}
+  description: ${{ values.description }}
+  annotations:
+    github.com/project-slug: kavyan256/${{ values.repoName }}
+    backstage.io/techdocs-ref: dir:.
+  tags:
+    ${{ "- " + values.techStack | join("\n    - ") }}
+spec:
+  type: ${{ values.componentType }}
+  lifecycle: ${{ values.lifecycle }}
+  owner: user:kavyan256
