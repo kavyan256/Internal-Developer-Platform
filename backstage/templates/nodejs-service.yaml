@@ -8,7 +8,7 @@ metadata:
     - nodejs
     - kubernetes
 spec:
-  owner: user:guest
+  owner: user:kavyan256
   type: service
 
   parameters:
@@ -108,7 +108,7 @@ spec:
       action: publish:github
       input:
         description: ${{ parameters.description }}
-        repoUrl: github.com?owner=${{ parameters.owner }}&repo=${{ parameters.serviceName }}
+        repoUrl: github.com?owner=kavyan256&repo=${{ parameters.serviceName }}
         defaultBranch: main
     
     - id: register
