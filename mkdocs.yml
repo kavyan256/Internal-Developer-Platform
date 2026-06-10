@@ -1,0 +1,5 @@
+site_name: internal-developer-platform
+site_description: Backstage-based IDP for cataloging, onboarding, and documenting internal services and projects.
+docs_dir: docs
+plugins:
+  - techdocs-core
