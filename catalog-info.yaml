@@ -1,0 +1,14 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: internal-developer-platform
+  description: Backstage-based IDP for cataloging, onboarding, and documenting internal services and projects.
+  annotations:
+    backstage.io/techdocs-ref: dir:.
+  tags:
+    - nodejs
+    - React
+spec:
+  type: service
+  lifecycle: production
+  owner: user:kavyan256
